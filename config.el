@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "zed tan"
+      user-mail-address "zed@shootbird.work")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -84,4 +84,9 @@
   :hook (pdf-tools-enabled . hide-mode-line-mode)
   :config
   (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
+
+;; configure org-roam
+(setq org-roam-directory (file-truename "~/org-roam"))
+(setq find-file-visit-truename t) ;; tells emacs to resolve symlinks
+(org-roam-db-autosync-mode) ;; automatically sync org-roam cache 
 
