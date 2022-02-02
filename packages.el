@@ -49,4 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;; add org's package repo
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
 (package! elfeed)
+(package! org-roam)

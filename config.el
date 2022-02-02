@@ -86,7 +86,19 @@
   (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
 
 ;; configure org-roam
-(setq org-roam-directory (file-truename "~/org-roam"))
-(setq find-file-visit-truename t) ;; tells emacs to resolve symlinks
-(org-roam-db-autosync-mode) ;; automatically sync org-roam cache 
+(use-package org-roam
+  :after org
+  :ensure t
+  :custom
+  (setq org-roam-directory (file-truename "~/org-roam"))
+  (setq find-file-visit-truename t) ;; tells emacs to resolve symlinks
+  (org-roam-db-autosync-mode) ;; automatically sync org-roam cache
+  (setq org-roam-node-display-template
+      (concat "${title:*} "
+              (propertize "${tags:10}" 'face 'org-tag)))
+  :config
+  (org-roam-setup)
+  :bind (:map org-mode-map
+         ("C-M-i" . completion-at-point))
+)
 
