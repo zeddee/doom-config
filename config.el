@@ -86,11 +86,12 @@
   (setq pdf-view-midnight-colors '("#ABB2BF" . "#282C35")))
 
 ;; configure org-roam
+(setq org-roam-directory (file-truename "~/org-roam"))
+
 (use-package org-roam
   :after org
   :ensure t
   :custom
-  (setq org-roam-directory (file-truename "~/org-roam"))
   (setq find-file-visit-truename t) ;; tells emacs to resolve symlinks
   (org-roam-db-autosync-mode) ;; automatically sync org-roam cache
   (setq org-roam-node-display-template
@@ -102,3 +103,30 @@
          ("C-M-i" . completion-at-point))
 )
 
+
+;; fix org-roam not being able to follow/resolve roam links
+;; see https://org-roam.discourse.group/t/org-roam-v2-org-id-id-link-resolution-problem/1491/3
+(defun my/org-id-update-org-roam-files ()
+  "Update Org-ID locations for all Org-roam files."
+  (interactive)
+  ;;(org-id-update-id-locations (org-roam--list-all-files)))
+  (org-id-update-id-locations (directory-files-recursively org-roam-directory ".org$\\|.org.gpg$"))
+)
+
+(defun my/org-id-update-id-current-file ()
+  "Scan the current buffer for Org-ID locations and update them."
+  (interactive)
+  (org-id-update-id-locations (list (buffer-file-name (current-buffer)))))
+
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
+
+
+
+;; explicitly set some org agenda activation keys
+;; https://orgmode.org/manual/Activation.html
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
